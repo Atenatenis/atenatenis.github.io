@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FCF35A" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f0f0d" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Ranking Atena">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Ranking Atena Tênis</title>
+<style>
+:root{color-scheme:light dark;--y:#FCF35A;--yl:#FFFBD6;--g:#3b3b36;--mut:#77756a;--line:#ece8cf;--bg:#fcfbf3;--ok:#1f7a3d;--up:#1f7a3d;--dn:#b3402a;
+--card:#fff;--soft:var(--soft);--soft2:#f5f2dc;--prev:#fdfcf2;--ys:#f7ef7a;--ysx:#3b3b36;--upbg:#f3faf2;--dnbg:#fdf4f1;--nav:#2f2f2f;--selb:var(--selb);--meb:#cfc84a}
+@media (prefers-color-scheme:dark){:root{--g:#ecebdc;--mut:#a5a392;--line:#3a3a32;--bg:#161613;--yl:#38351a;--ok:#5fcf80;--up:#5fcf80;--dn:#ff8a70;
+--card:#22221e;--soft:#32312a;--soft2:#2d2c25;--prev:#1d1d1a;--ys:#6a6514;--ysx:#fff9a8;--upbg:#1b2a1d;--dnbg:#2f1f1b;--nav:#0f0f0d;--selb:#4a4a3d;--meb:#8f8a24}}
+header,header p{color:#2f2f2f}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--g);font:16px/1.35 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;padding-bottom:env(safe-area-inset-bottom)}
+header{background:var(--y);padding:14px 16px 12px;display:flex;align-items:center;gap:12px;padding-top:calc(14px + env(safe-area-inset-top))}
+header img{width:58px;height:58px;border-radius:10px;display:block}
+header h1{margin:0;font-size:21px;line-height:1.15}
+header p{margin:2px 0 0;font-size:14px;color:#4a493c}
+nav{position:sticky;top:0;z-index:5;background:var(--nav);display:flex;overflow-x:auto}
+nav button{flex:1 0 auto;min-width:64px;min-height:52px;border:0;background:transparent;color:#d8d5b0;font:600 16px/1 inherit;font-family:inherit;cursor:pointer;border-bottom:4px solid transparent;padding:0 8px}
+nav button[aria-selected=true]{color:var(--y);border-bottom-color:var(--y)}
+main{max-width:680px;margin:0 auto;padding:12px 10px 36px}
+h2{font-size:17px;margin:18px 0 4px;font-weight:650}
+.sub{margin:0 0 12px;color:var(--mut);font-size:15px}
+.me{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 12px 10px;margin-bottom:4px}
+.me label{display:block;font-size:13px;color:var(--mut);margin-bottom:4px}
+.sbox{position:relative}
+.sbox input{padding-right:40px!important}
+input[type=search]::-webkit-search-cancel-button{-webkit-appearance:none;display:none}
+#wclr{position:absolute;right:4px;top:3px;width:36px;height:36px;border:0;background:transparent;color:var(--mut);font-size:16px;cursor:pointer}
+#sug{position:absolute;z-index:20;left:0;right:0;top:46px;margin:0;padding:4px 0;list-style:none;background:var(--card);border:1px solid var(--selb);border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,.18)}
+#sug li{padding:11px 12px;font-size:16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line)}
+#sug li:first-child{border-top:0}#sug li small{color:var(--mut);font-size:12px}#sug li.none{color:var(--mut)}
+.me input,.srch{width:100%;min-height:42px;font-size:16px;border:1px solid var(--selb);border-radius:10px;padding:0 10px;background:var(--card);color:var(--g);font-family:inherit}
+.mine-box{margin-top:10px;padding:10px 12px;border-radius:10px;background:var(--yl);font-size:16px}
+.mine-box p{margin:0 0 6px}.mine-box p:last-child{margin:0}
+.cards{display:grid;gap:8px}
+.match{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:6px 12px 8px}
+.match.mine{border:1px solid var(--meb);background:var(--yl);box-shadow:0 0 0 2px var(--y)}
+.match.prev{background:var(--prev);border-style:dashed}
+.meta{font-size:12px;color:var(--mut);margin-bottom:0}
+.pl{display:flex;align-items:center;gap:6px;padding:2px 0;font-size:16px;min-height:36px}
+.pl .n{flex:1;min-width:0;overflow-wrap:anywhere}
+.pl .n.tbd{color:var(--mut);font-size:14px}
+.pl .n.tbd small{display:block;font-size:12px}
+.g{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:28px;border-radius:7px;font-weight:500;font-size:16px;color:var(--mut);background:var(--soft)}
+.g.sw{background:var(--ys);color:var(--ysx);font-weight:700}
+.g.tb{min-width:42px;gap:2px}
+.g small{font-size:10px;font-weight:700;letter-spacing:.3px;opacity:.75}
+.pl.w .n{font-weight:700}
+.pl.w .n::after{content:" ✓";color:var(--ok)}
+.pl.l .n{color:var(--mut)}
+.wo{font-size:13px;font-weight:800;background:var(--nav);color:var(--y);border-radius:8px;padding:4px 9px}
+.st{margin-top:2px;font-size:12.5px;color:var(--mut)}
+.st b{color:var(--g)}
+.tw{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:14px}
+table{border-collapse:collapse;width:100%;font-size:17px}
+th{background:var(--nav);color:var(--y);font-weight:600;font-size:13px;padding:9px 6px;text-align:center;white-space:nowrap}
+td{padding:12px 6px;text-align:center;border-top:1px solid var(--line)}
+th:nth-child(2),td:nth-child(2){text-align:left;width:100%}
+td:nth-child(2){font-weight:600;padding-right:10px}
+td:first-child{font-weight:800;width:44px}
+td.z{width:30px;font-size:15px;font-weight:800}
+td.z.up{color:var(--up)}td.z.down{color:var(--dn)}
+tr.me-row td{background:var(--y);color:#2f2f2f}
+.legend{font-size:13px;color:var(--mut);margin:8px 2px 0}
+details{background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:10px;overflow:hidden}
+summary{padding:10px 14px;font-weight:600;cursor:pointer;min-height:44px}
+details .in{padding:0 14px 12px}
+.res{padding:6px 0;border-top:1px solid var(--line);font-size:16px}
+.res small{display:block;color:var(--mut);font-size:14px}
+.csec h2{margin-top:22px}
+.how{margin-top:22px;background:var(--card);border:1px dashed var(--mut);border-radius:14px;padding:12px 14px;font-size:14px;color:var(--mut)}
+.tri{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;align-items:start}
+.col{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.col h3{margin:0;background:var(--nav);color:var(--y);font-size:13px;font-weight:600;text-align:center;padding:6px 2px}
+.col ol{list-style:none;margin:0;padding:0}
+.col li{display:flex;gap:4px;align-items:center;height:29px;padding:0 4px;border-top:1px solid var(--line);font-size:12.5px;letter-spacing:-.1px;white-space:nowrap}
+.col li:first-child{border-top:0}
+.col li i{font-style:normal;color:var(--mut);width:13px;text-align:right;font-size:11px;flex:none}
+.col li span{overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0}
+.col li u{text-decoration:none;font-size:8px;flex:none;margin-left:-2px}
+.col li.up u{color:var(--up)}.col li.down u{color:var(--dn)}
+.col li.up{background:var(--upbg)}.col li.down{background:var(--dnbg)}
+.col li.me-row{background:var(--y);color:#2f2f2f;font-weight:700}
+.dbox{margin-top:10px}
+.dbox .tw{margin-top:0}
+td.z{font-size:13px}
+td{padding:7px 6px}
+table{font-size:15px}
+.match{display:flex;align-items:stretch;gap:8px;padding:3px 10px 3px 0!important;overflow:hidden}
+.jn{flex:none;width:40px;background:var(--soft2);display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--mut);border-right:1px solid var(--line)}
+.jn b{font-size:15px;color:var(--g)}.jn small{font-size:9.5px}
+.pls{flex:1;min-width:0}
+.pl{min-height:28px!important;padding:0!important;font-size:15px!important}
+.pl+.pl{border-top:1px dashed var(--line)}
+.g{min-width:24px!important;height:24px!important;font-size:14px!important;border-radius:6px!important}
+.g.tb{min-width:38px!important}
+.cards{gap:6px!important}
+.round{background:var(--nav);color:var(--y);text-align:center;font-size:14px;padding:7px 10px;font-weight:600}
+.round b{font-weight:800}
+a{color:var(--g);font-weight:600}
+footer{text-align:center;color:var(--mut);font-size:13px;padding:0 16px 28px}
+</style>
+</head>
+<body>
+<header>
+  <img src="data:image/jpeg;base64,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" alt="Logo Atena Tênis">
+  <div><h1>Ranking Atena Tênis</h1><p id="upd">Dados salvos em 22/11/2026</p></div>
+</header>
+<nav id="tabs" role="tablist" aria-label="Seções"></nav>
+<div id="rb" class="round"></div>
+<main id="app"></main>
+<footer>Ranking Atena Tênis</footer>
+
+<script src="config.js"></script>
+<script>
+const DATA = {"ciclo": 1, "cats": {"A": {"n": 16, "atual": 3, "rounds": [{"ri": 1, "n": 1, "prazo": "01/11", "games": [{"j": 1, "a": 1, "b": 16, "p1": "Gabriel Costa", "p2": "Alexandre Marco", "sets": [[6, 3], [1, 6]], "tb": [10, 2], "w": 1, "folga": false, "wo": false}, {"j": 2, "a": 5, "b": 12, "p1": "Jean Bohn", "p2": "Ana Gismonti", "sets": [[6, 4], [6, 4]], "tb": null, "w": 1, "folga": false, "wo": false}, {"j": 3, "a": 8, "b": 9, "p1": "Rodrigo Carvalho", "p2": "André Aidos", "sets": [[6, 3], [3, 6]], "tb": [2, 10], "w": 2, "folga": false, "wo": false}, {"j": 4, "a": 3, "b": 14, "p1": "Tiago Ramires", "p2": "Mario Costa", "sets": [[7, 5], [6, 3]], "tb": null, "w": 1, "folga": false, "wo": false}, {"j": 5, "a": 4, "b": 13, "p1": "André Flach", "p2": "Rayan Pereira", "sets": [[1, 6], [6, 3]], "tb": [10, 4], "w": 1, "folga": false, "wo": false}, {"j": 6, "a": 6, "b": 11, "p1": "Adriano Souza", "p2": "Eduardo Silveira", "sets": [[6, 3], [5, 7]], "tb": [10, 2], "w": 1, "folga": false, "wo": false}, {"j": 7, "a": 7, "b": 10, "p1": "Renato Cremonese", "p2": "Sergio Irigoyen", "sets": [[7, 5], [6, 4]], "tb": null, "w": 1, "folga": false, "wo": false}, {"j": 8, "a": 2, "b": 15, "p1": "António Raul", "p2": "Flavio Narch", "sets": [[6, 2], [6, 3]], "tb": null, "w": 1, "folga": false, "wo": false}]}, {"ri": 2, "n": 2, "prazo": "15/11", "games": [{"j": 1, "a": 1, "b": 5, "p1": "Gabriel Costa", "p2": "Jean Bohn", "sets": [[6, 1], [6, 0]], "tb": null, "w": 1, "folga": false, "wo": false}, {"j": 2, "a": 3, "b": 6, "p1": "Tiago Ramires", "p2": "Adriano Souza", "sets": [[0, 6], [4, 6]], "tb": null, "w": 2, "folga": false, "wo": false}, {"j": 3, "a": 4, "b": 8, "p1": "André Flach", "p2": "André Aidos", "sets": [[7, 6], [6, 7]], "tb": [10, 2], "w": 1, "folga": false, "wo": false}, {"j": 4, "a": 2, "b": 7, "p1": "António Raul", "p2": "Renato Cremonese", "sets": [[6, 1], [6, 4]], "tb": null, "w": 1, "folga": false, "wo": false}, {"j": 5, "a": 9, "b": 16, "p1": "Rodrigo Carvalho", "p2": "Alexandre Marco", "sets": [[6, 1], [6, 2]], "tb": null, "w": 1, "folga": false, "wo": false}, {"j": 6, "a": 12, "b": 14, "p1": "Ana Gismonti", "p2": "Mario Costa", "sets": [[3, 6], [3, 6]], "tb": null, "w": 2, "folga": false, "wo": false}, {"j": 7, "a": 10, "b": 13, "p1": "Sergio Irigoyen", "p2": "Rayan Pereira", "sets": [[6, 4], [6, 3]], "tb": null, "w": 1, "folga": false, "wo": false}, {"j": 8, "a": 11, "b": 15, "p1": "Eduardo Silveira", "p2": "Flavio Narch", "sets": [[5, 7], [6, 4]], "tb": [10, 8], "w": 1, "folga": false, "wo": false}]}, {"ri": 3, "n": 3, "prazo": "29/11", "games": [{"j": 1, "a": 1, "b": 3, "p1": "Gabriel Costa", "p2": "Adriano Souza", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 2, "a": 2, "b": 4, "p1": "António Raul", "p2": "André Flach", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 3, "a": 5, "b": 7, "p1": "Jean Bohn", "p2": "Renato Cremonese", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 4, "a": 6, "b": 8, "p1": "Tiago Ramires", "p2": "André Aidos", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 5, "a": 9, "b": 11, "p1": "Rodrigo Carvalho", "p2": "Eduardo Silveira", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 6, "a": 10, "b": 12, "p1": "Sergio Irigoyen", "p2": "Mario Costa", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 7, "a": 15, "b": 16, "p1": "Flavio Narch", "p2": "Alexandre Marco", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 8, "a": 13, "b": 14, "p1": "Rayan Pereira", "p2": "Ana Gismonti", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}]}, {"ri": 4, "n": 4, "prazo": "13/12", "games": [{"j": 1, "a": 1, "b": 2, "p1": "", "p2": "", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 2, "a": 3, "b": 4, "p1": "", "p2": "", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 3, "a": 5, "b": 6, "p1": "", "p2": "", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 4, "a": 7, "b": 8, "p1": "", "p2": "", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 5, "a": 9, "b": 10, "p1": "", "p2": "", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 6, "a": 11, "b": 12, "p1": "", "p2": "", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 7, "a": 13, "b": 15, "p1": "", "p2": "", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 8, "a": 14, "b": 16, "p1": "", "p2": "", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}]}], "live": [{"pos": 1, "nome": "Gabriel Costa", "z": ""}, {"pos": 2, "nome": "António Raul", "z": ""}, {"pos": 3, "nome": "Adriano Souza", "z": ""}, {"pos": 4, "nome": "André Flach", "z": ""}, {"pos": 5, "nome": "Jean Bohn", "z": ""}, {"pos": 6, "nome": "Tiago Ramires", "z": ""}, {"pos": 7, "nome": "Renato Cremonese", "z": ""}, {"pos": 8, "nome": "André Aidos", "z": ""}, {"pos": 9, "nome": "Rodrigo Carvalho", "z": ""}, {"pos": 10, "nome": "Sergio Irigoyen", "z": ""}, {"pos": 11, "nome": "Eduardo Silveira", "z": ""}, {"pos": 12, "nome": "Mario Costa", "z": ""}, {"pos": 13, "nome": "Rayan Pereira", "z": ""}, {"pos": 14, "nome": "Ana Gismonti", "z": ""}, {"pos": 15, "nome": "Flavio Narch", "z": "down"}, {"pos": 16, "nome": "Alexandre Marco", "z": "down"}]}, "B": {"n": 16, "atual": 3, "rounds": [{"ri": 1, "n": 1, "prazo": "01/11", "games": [{"j": 1, "a": 1, "b": 16, "p1": "Lucio Winck", "p2": "Nartusa", "sets": [[6, 4], [6, 0]], "tb": null, "w": 1, "folga": false, "wo": false}, {"j": 2, "a": 5, "b": 12, "p1": "Filipe Arnaud", "p2": "Leonardo Cunha", "sets": [[6, 7], [6, 2]], "tb": [10, 3], "w": 1, "folga": false, "wo": false}, {"j": 3, "a": 8, "b": 9, "p1": "Alessandra", "p2": "Eduardo Canani", "sets": [[4, 6], [3, 6]], "tb": null, "w": 2, "folga": false, "wo": false}, {"j": 4, "a": 3, "b": 14, "p1": "Luis Werlang", "p2": "Jarbas Terra", "sets": [[6, 7], [6, 3]], "tb": [10, 3], "w": 1, "folga": false, "wo": false}, {"j": 5, "a": 4, "b": 13, "p1": "Eduardo Pinheiro", "p2": "Leonardo Matos", "sets": [[1, 6], [2, 6]], "tb": null, "w": 2, "folga": false, "wo": false}, {"j": 6, "a": 6, "b": 11, "p1": "Matheus Kuhn", "p2": "Weslen", "sets": [[6, 4], [6, 2]], "tb": null, "w": 1, "folga": false, "wo": false}, {"j": 7, "a": 7, "b": 10, "p1": "Bruno Carvalho", "p2": "Maicon Vaz", "sets": [[7, 6], [6, 3]], "tb": null, "w": 1, "folga": false, "wo": false}, {"j": 8, "a": 2, "b": 15, "p1": "Eliandro", "p2": "Lucas Theves", "sets": [[4, 6], [6, 2]], "tb": [10, 3], "w": 1, "folga": false, "wo": false}]}, {"ri": 2, "n": 2, "prazo": "15/11", "games": [{"j": 1, "a": 1, "b": 5, "p1": "Lucio Winck", "p2": "Filipe Arnaud", "sets": [[7, 5], [7, 5]], "tb": null, "w": 1, "folga": false, "wo": false}, {"j": 2, "a": 3, "b": 6, "p1": "Luis Werlang", "p2": "Matheus Kuhn", "sets": [[4, 6], [2, 6]], "tb": null, "w": 2, "folga": false, "wo": false}, {"j": 3, "a": 4, "b": 8, "p1": "Leonardo Matos", "p2": "Eduardo Canani", "sets": [[6, 0], [6, 1]], "tb": null, "w": 1, "folga": false, "wo": false}, {"j": 4, "a": 2, "b": 7, "p1": "Eliandro", "p2": "Bruno Carvalho", "sets": [[6, 1], [6, 3]], "tb": null, "w": 1, "folga": false, "wo": false}, {"j": 5, "a": 9, "b": 16, "p1": "Alessandra", "p2": "Nartusa", "sets": [[2, 6], [7, 6]], "tb": [10, 3], "w": 1, "folga": false, "wo": false}, {"j": 6, "a": 12, "b": 14, "p1": "Leonardo Cunha", "p2": "Jarbas Terra", "sets": [[6, 2], [6, 4]], "tb": null, "w": 1, "folga": false, "wo": false}, {"j": 7, "a": 10, "b": 13, "p1": "Maicon Vaz", "p2": "Eduardo Pinheiro", "sets": [[2, 6], [1, 6]], "tb": null, "w": 2, "folga": false, "wo": false}, {"j": 8, "a": 11, "b": 15, "p1": "Weslen", "p2": "Lucas Theves", "sets": [[4, 6], [6, 4]], "tb": [8, 10], "w": 2, "folga": false, "wo": false}]}, {"ri": 3, "n": 3, "prazo": "29/11", "games": [{"j": 1, "a": 1, "b": 3, "p1": "Lucio Winck", "p2": "Matheus Kuhn", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 2, "a": 2, "b": 4, "p1": "Eliandro", "p2": "Leonardo Matos", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 3, "a": 5, "b": 7, "p1": "Filipe Arnaud", "p2": "Bruno Carvalho", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 4, "a": 6, "b": 8, "p1": "Luis Werlang", "p2": "Eduardo Canani", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 5, "a": 9, "b": 11, "p1": "Alessandra", "p2": "Lucas Theves", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 6, "a": 10, "b": 12, "p1": "Eduardo Pinheiro", "p2": "Leonardo Cunha", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 7, "a": 15, "b": 16, "p1": "Weslen", "p2": "Nartusa", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 8, "a": 13, "b": 14, "p1": "Maicon Vaz", "p2": "Jarbas Terra", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}]}, {"ri": 4, "n": 4, "prazo": "13/12", "games": [{"j": 1, "a": 1, "b": 2, "p1": "", "p2": "", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 2, "a": 3, "b": 4, "p1": "", "p2": "", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 3, "a": 5, "b": 6, "p1": "", "p2": "", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 4, "a": 7, "b": 8, "p1": "", "p2": "", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 5, "a": 9, "b": 10, "p1": "", "p2": "", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 6, "a": 11, "b": 12, "p1": "", "p2": "", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 7, "a": 13, "b": 15, "p1": "", "p2": "", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 8, "a": 14, "b": 16, "p1": "", "p2": "", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}]}], "live": [{"pos": 1, "nome": "Lucio Winck", "z": "up"}, {"pos": 2, "nome": "Eliandro", "z": "up"}, {"pos": 3, "nome": "Matheus Kuhn", "z": ""}, {"pos": 4, "nome": "Leonardo Matos", "z": ""}, {"pos": 5, "nome": "Filipe Arnaud", "z": ""}, {"pos": 6, "nome": "Luis Werlang", "z": ""}, {"pos": 7, "nome": "Bruno Carvalho", "z": ""}, {"pos": 8, "nome": "Eduardo Canani", "z": ""}, {"pos": 9, "nome": "Alessandra", "z": ""}, {"pos": 10, "nome": "Eduardo Pinheiro", "z": ""}, {"pos": 11, "nome": "Lucas Theves", "z": ""}, {"pos": 12, "nome": "Leonardo Cunha", "z": ""}, {"pos": 13, "nome": "Maicon Vaz", "z": ""}, {"pos": 14, "nome": "Jarbas Terra", "z": ""}, {"pos": 15, "nome": "Weslen", "z": "down"}, {"pos": 16, "nome": "Nartusa", "z": "down"}]}, "C": {"n": 16, "atual": 3, "rounds": [{"ri": 1, "n": 1, "prazo": "01/11", "games": [{"j": 1, "a": 1, "b": 16, "p1": "Aramis Castro", "p2": "Taiany Schmitt", "sets": [[6, 4], [7, 6]], "tb": null, "w": 1, "folga": false, "wo": false}, {"j": 2, "a": 5, "b": 12, "p1": "Adrio Messias", "p2": "Felipe Castro", "sets": [[3, 6], [2, 6]], "tb": null, "w": 2, "folga": false, "wo": false}, {"j": 3, "a": 8, "b": 9, "p1": "Rafael Azeredo", "p2": "Vinicius Pisoni", "sets": [[4, 6], [7, 6]], "tb": [7, 10], "w": 2, "folga": false, "wo": false}, {"j": 4, "a": 3, "b": 14, "p1": "Adilson Stuart", "p2": "Nicholas", "sets": [[6, 2], [6, 1]], "tb": null, "w": 1, "folga": false, "wo": false}, {"j": 5, "a": 4, "b": 13, "p1": "Flavio Jr", "p2": "Aline Laus", "sets": [[7, 5], [6, 3]], "tb": null, "w": 1, "folga": false, "wo": false}, {"j": 6, "a": 6, "b": 11, "p1": "Brian James", "p2": "Richard Maciel", "sets": [[6, 1], [6, 2]], "tb": null, "w": 1, "folga": false, "wo": false}, {"j": 7, "a": 7, "b": 10, "p1": "Igor Righi", "p2": "Rene Goal", "sets": [[6, 4], [7, 5]], "tb": null, "w": 1, "folga": false, "wo": false}, {"j": 8, "a": 2, "b": 15, "p1": "Julio Cunha", "p2": "Vergilio Misael", "sets": [[6, 2], [2, 6]], "tb": [10, 5], "w": 1, "folga": false, "wo": false}]}, {"ri": 2, "n": 2, "prazo": "15/11", "games": [{"j": 1, "a": 1, "b": 5, "p1": "Aramis Castro", "p2": "Felipe Castro", "sets": [[6, 2], [6, 3]], "tb": null, "w": 1, "folga": false, "wo": false}, {"j": 2, "a": 3, "b": 6, "p1": "Adilson Stuart", "p2": "Brian James", "sets": [[7, 6], [7, 6]], "tb": null, "w": 1, "folga": false, "wo": false}, {"j": 3, "a": 4, "b": 8, "p1": "Flavio Jr", "p2": "Vinicius Pisoni", "sets": [[6, 1], [7, 6]], "tb": null, "w": 1, "folga": false, "wo": false}, {"j": 4, "a": 2, "b": 7, "p1": "Julio Cunha", "p2": "Igor Righi", "sets": [[0, 6], [3, 6]], "tb": null, "w": 2, "folga": false, "wo": false}, {"j": 5, "a": 9, "b": 16, "p1": "Rafael Azeredo", "p2": "Taiany Schmitt", "sets": [[7, 5], [6, 1]], "tb": null, "w": 1, "folga": false, "wo": false}, {"j": 6, "a": 12, "b": 14, "p1": "Adrio Messias", "p2": "Nicholas", "sets": [[6, 3], [6, 0]], "tb": null, "w": 1, "folga": false, "wo": false}, {"j": 7, "a": 10, "b": 13, "p1": "Rene Goal", "p2": "Aline Laus", "sets": [[6, 3], [7, 5]], "tb": null, "w": 1, "folga": false, "wo": false}, {"j": 8, "a": 11, "b": 15, "p1": "Richard Maciel", "p2": "Vergilio Misael", "sets": [[7, 5], [3, 6]], "tb": [10, 7], "w": 1, "folga": false, "wo": false}]}, {"ri": 3, "n": 3, "prazo": "29/11", "games": [{"j": 1, "a": 1, "b": 3, "p1": "Aramis Castro", "p2": "Adilson Stuart", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 2, "a": 2, "b": 4, "p1": "Igor Righi", "p2": "Flavio Jr", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 3, "a": 5, "b": 7, "p1": "Felipe Castro", "p2": "Julio Cunha", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 4, "a": 6, "b": 8, "p1": "Brian James", "p2": "Vinicius Pisoni", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 5, "a": 9, "b": 11, "p1": "Rafael Azeredo", "p2": "Richard Maciel", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 6, "a": 10, "b": 12, "p1": "Rene Goal", "p2": "Adrio Messias", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 7, "a": 15, "b": 16, "p1": "Vergilio Misael", "p2": "Taiany Schmitt", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 8, "a": 13, "b": 14, "p1": "Aline Laus", "p2": "Nicholas", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}]}, {"ri": 4, "n": 4, "prazo": "13/12", "games": [{"j": 1, "a": 1, "b": 2, "p1": "", "p2": "", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 2, "a": 3, "b": 4, "p1": "", "p2": "", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 3, "a": 5, "b": 6, "p1": "", "p2": "", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 4, "a": 7, "b": 8, "p1": "", "p2": "", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 5, "a": 9, "b": 10, "p1": "", "p2": "", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 6, "a": 11, "b": 12, "p1": "", "p2": "", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 7, "a": 13, "b": 15, "p1": "", "p2": "", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 8, "a": 14, "b": 16, "p1": "", "p2": "", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}]}], "live": [{"pos": 1, "nome": "Aramis Castro", "z": "up"}, {"pos": 2, "nome": "Igor Righi", "z": "up"}, {"pos": 3, "nome": "Adilson Stuart", "z": ""}, {"pos": 4, "nome": "Flavio Jr", "z": ""}, {"pos": 5, "nome": "Felipe Castro", "z": ""}, {"pos": 6, "nome": "Brian James", "z": ""}, {"pos": 7, "nome": "Julio Cunha", "z": ""}, {"pos": 8, "nome": "Vinicius Pisoni", "z": ""}, {"pos": 9, "nome": "Rafael Azeredo", "z": ""}, {"pos": 10, "nome": "Rene Goal", "z": ""}, {"pos": 11, "nome": "Richard Maciel", "z": ""}, {"pos": 12, "nome": "Adrio Messias", "z": ""}, {"pos": 13, "nome": "Aline Laus", "z": ""}, {"pos": 14, "nome": "Nicholas", "z": ""}, {"pos": 15, "nome": "Vergilio Misael", "z": "down"}, {"pos": 16, "nome": "Taiany Schmitt", "z": "down"}]}, "D": {"n": 8, "atual": 3, "rounds": [{"ri": 1, "n": 1, "prazo": "01/11", "games": [{"j": 1, "a": 1, "b": 8, "p1": "Jogador D1", "p2": "Jogador D8", "sets": [[4, 6], [6, 2]], "tb": [10, 6], "w": 1, "folga": false, "wo": false}, {"j": 2, "a": 2, "b": 7, "p1": "Jogador D2", "p2": "Jogador D7", "sets": [[7, 5], [6, 4]], "tb": null, "w": 1, "folga": false, "wo": false}, {"j": 3, "a": 3, "b": 6, "p1": "Jogador D3", "p2": "Jogador D6", "sets": [[7, 6], [2, 6]], "tb": [10, 8], "w": 1, "folga": false, "wo": false}, {"j": 4, "a": 4, "b": 5, "p1": "Jogador D4", "p2": "Jogador D5", "sets": [[6, 2], [6, 2]], "tb": null, "w": 1, "folga": false, "wo": false}]}, {"ri": 2, "n": 2, "prazo": "15/11", "games": [{"j": 1, "a": 1, "b": 4, "p1": "Jogador D1", "p2": "Jogador D4", "sets": [[6, 3], [6, 1]], "tb": null, "w": 1, "folga": false, "wo": false}, {"j": 2, "a": 2, "b": 3, "p1": "Jogador D2", "p2": "Jogador D3", "sets": [[3, 6], [4, 6]], "tb": null, "w": 2, "folga": false, "wo": false}, {"j": 3, "a": 5, "b": 8, "p1": "Jogador D5", "p2": "Jogador D8", "sets": [[6, 7], [3, 6]], "tb": null, "w": 2, "folga": false, "wo": false}, {"j": 4, "a": 6, "b": 7, "p1": "Jogador D6", "p2": "Jogador D7", "sets": [[6, 0], [6, 3]], "tb": null, "w": 1, "folga": false, "wo": false}]}, {"ri": 3, "n": 3, "prazo": "29/11", "games": [{"j": 1, "a": 1, "b": 2, "p1": "Jogador D1", "p2": "Jogador D3", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 2, "a": 3, "b": 4, "p1": "Jogador D2", "p2": "Jogador D4", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 3, "a": 5, "b": 6, "p1": "Jogador D8", "p2": "Jogador D6", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}, {"j": 4, "a": 7, "b": 8, "p1": "Jogador D7", "p2": "Jogador D5", "sets": [], "tb": null, "w": 0, "folga": false, "wo": false}]}], "live": [{"pos": 1, "nome": "Jogador D1", "z": "up"}, {"pos": 2, "nome": "Jogador D3", "z": "up"}, {"pos": 3, "nome": "Jogador D2", "z": ""}, {"pos": 4, "nome": "Jogador D4", "z": ""}, {"pos": 5, "nome": "Jogador D8", "z": ""}, {"pos": 6, "nome": "Jogador D6", "z": ""}, {"pos": 7, "nome": "Jogador D7", "z": ""}, {"pos": 8, "nome": "Jogador D5", "z": ""}]}}};
+const CATS = ["A","B","C","D"], D = DATA.cats;
+let tab = "G", me = "";
+try { me = localStorage.getItem("atena_me") || ""; } catch(e) {}
+const known = n => CATS.some(c => D[c].live.some(s => s.nome === n));
+if(me && !known(me)) me = "";
+if(me) tab = "M";
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const norm = s => s.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();
+const meCat = () => CATS.find(c => D[c].live.some(s => s.nome === me)) || "";
+const isDone = g => g.w !== 0 || g.folga;
+const named = g => g.p1 && g.p2;
+const rnd = (cls, ri) => cls.rounds.find(r => r.ri === ri);
+const gameWith = (cls, ri, slot) => { const r = rnd(cls, ri); return r ? r.games.find(g => g.a === slot || g.b === slot) : null; };
+
+/* quem ocupa a vaga `slot` depois da rodada `ri` (nome, se já definido; senão "vencedor/perdedor do jogo X") */
+function occupant(cls, ri, slot){
+  const g = gameWith(cls, ri, slot); if(!g) return {label:"a definir"};
+  const better = slot === Math.min(g.a, g.b);
+  if(isDone(g)){
+    if(g.folga) return {name: slot === g.a ? g.p1 : g.p2};
+    const win = g.w === 1 ? g.p1 : g.p2, lose = g.w === 1 ? g.p2 : g.p1;
+    return {name: better ? win : lose};
+  }
+  const who = better ? "vencedor" : "perdedor";
+  return {label: `${who} do jogo ${g.j}`, opts: named(g) ? [g.p1, g.p2] : null};
+}
+function slotName(cls, ri, g, side){            /* nome (ou rótulo) de quem joga o jogo g da rodada ri */
+  const nm = side ? g.p2 : g.p1; if(nm) return {name: nm};
+  return ri > 1 ? occupant(cls, ri-1, side ? g.b : g.a) : {label:"a definir"};
+}
+const tbd = o => `<span class="n tbd">${esc(o.label.charAt(0).toUpperCase()+o.label.slice(1))}${o.opts ? `<small>${esc(o.opts[0])} ou ${esc(o.opts[1])}</small>` : ""}</span>`;
+
+function cell(a, b, tb){ return `<span class="g${a>b?" sw":""}${tb?" tb":""}">${tb?"<small>TB</small>":""}${a}</span>`; }
+function playerRow(cls, ri, g, side){
+  const o = slotName(cls, ri, g, side);
+  if(!o.name) return `<div class="pl">${tbd(o)}</div>`;
+  const fin = isDone(g) && named(g), won = g.w === side + 1; let right = "";
+  if(fin && !g.folga){
+    if(g.wo) right = won ? `<span class="wo">W.O.</span>` : "";
+    else right = g.sets.map(s => cell(s[side], s[1-side])).join("") + (g.tb ? cell(g.tb[side], g.tb[1-side], true) : "");
+  }
+  return `<div class="pl ${fin && !g.folga ? (won ? "w" : "l") : ""}"><span class="n">${esc(o.name)}</span>${right}</div>`;
+}
+function matchCard(cls, r, g, preview){
+  const mine = me && (g.p1 === me || g.p2 === me);
+  const ready = named(g), fin = ready && isDone(g);
+  const foot = preview ? "" : (g.folga ? "Jogo cancelado (ninguém muda de vaga)" : fin ? (g.wo ? "Vitória por W.O." : "Jogo realizado") : ready ? "<b>A jogar</b> até domingo " + r.prazo : "Aguardando os jogos anteriores");
+  return `<article class="match${mine?" mine":""}${preview?" prev":""}"><div class="jn" title="vagas ${g.a}º x ${g.b}º"><b>${g.j}</b><small>${g.a}º·${g.b}º</small></div><div class="pls">${playerRow(cls,r.ri,g,0)}${playerRow(cls,r.ri,g,1)}</div></article>`;
+}
+const scoreTxt = g => { if(g.folga) return "jogo cancelado"; if(g.wo) return "W.O.";
+  const w = g.w === 1 ? 0 : 1; return g.sets.map(s => `${s[w]}-${s[1-w]}`).join(" ") + (g.tb ? ` [${g.tb[w]}-${g.tb[1-w]}]` : ""); };
+const lbl = (o) => o.name ? `<b>${esc(o.name)}</b>` : `o <b>${esc(o.label)}</b>${o.opts ? ` (${esc(o.opts[0])} ou ${esc(o.opts[1])})` : ""}`;
+
+function mineBox(){
+  const c = meCat(); if(!c) return "";
+  const cls = D[c], sp = cls.live.find(s => s.nome === me), r = rnd(cls, cls.atual);
+  const g = r.games.find(x => x.p1 === me || x.p2 === me);
+  let html = `<p>Você está em <b>${sp.pos}º lugar</b> na classe ${c}.</p>`;
+  if(g){
+    const myA = g.a, myB = g.b, opp = g.p1 === me ? g.p2 : g.p1;
+    const nxt = rnd(cls, r.ri + 1);
+    const nextVs = slot => { if(!nxt) return null; const g2 = gameWith(cls, r.ri + 1, slot); if(!g2) return null;
+      const o = slot === g2.a ? g2.b : g2.a; return occupant(cls, r.ri, o); };
+    if(isDone(g)){
+      if(g.folga) html = `<p>Rodada ${r.n}: seu jogo contra <b>${esc(opp)}</b> foi cancelado.</p>` + html;
+      else { const iw = (g.w === 1) === (g.p1 === me);
+        html = `<p>Rodada ${r.n}: você ${iw?"venceu":"perdeu para"} <b>${esc(opp)}</b> (${scoreTxt(g)}).</p>` + html;
+        const nv = nextVs(iw ? Math.min(myA,myB) : Math.max(myA,myB));
+        if(nv) html += `<p>Rodada ${r.n+1}: você enfrenta ${lbl(nv)}.</p>`; }
+    } else {
+      html = `<p>Rodada ${r.n}: você joga contra <b>${esc(opp)}</b>.</p>` + html;
+      const w = nextVs(Math.min(myA,myB)), l = nextVs(Math.max(myA,myB));
+      if(w) html += `<p>Se ganhar, enfrenta ${lbl(w)}.</p>`;
+      if(l) html += `<p>Se perder, enfrenta ${lbl(l)}.</p>`;
+    }
+  }
+  return `<div class="mine-box">${html}</div>`;
+}
+function meSelect(compact){
+  return `<div class="me"><label for="who">Quem é você? Digite seu nome</label>
+    <div class="sbox"><input id="who" type="search" inputmode="search" autocomplete="off" autocorrect="off" autocapitalize="words" spellcheck="false" placeholder="Ex.: Igor" value="${esc(me)}"><button type="button" id="wclr" aria-label="Limpar" ${me?"":"hidden"}>✕</button><ul id="sug" hidden></ul></div>${compact?"":mineBox()}</div>`;
+}
+function pickMe(n){
+  me = n; try { localStorage.setItem("atena_me", me); } catch(x) {}
+  if(me && tab !== "G" && tab !== "M") tab = meCat(); if(!me && tab === "M") tab = "G";
+  render();
+}
+function bindWho(){
+  const inp = $("#who"), ul = $("#sug"), clr = $("#wclr");
+  const all = CATS.flatMap(c => D[c].live.map(s => ({n: s.nome, c})));
+  const show = () => {
+    const q = norm(inp.value.trim()); if(!q || inp.value === me){ ul.hidden = true; return; }
+    const m = all.filter(x => norm(x.n).split(/\s+/).some(w => w.startsWith(q)) || norm(x.n).startsWith(q) || norm(x.n).includes(q)).slice(0, 6);
+    ul.innerHTML = m.length ? m.map(x => `<li data-n="${esc(x.n)}">${esc(x.n)}<small>Classe ${x.c}</small></li>`).join("") : `<li class="none">Nenhum nome encontrado</li>`;
+    ul.hidden = false;
+  };
+  inp.addEventListener("input", show);
+  inp.addEventListener("focus", () => { if(inp.value === me) inp.select(); else show(); });
+  inp.addEventListener("keydown", e => { if(e.key === "Enter"){ const f = ul.querySelector("li[data-n]"); if(f){ e.preventDefault(); pickMe(f.dataset.n); } } });
+  ul.addEventListener("pointerdown", e => { const li = e.target.closest("li[data-n]"); if(li){ e.preventDefault(); pickMe(li.dataset.n); } });
+  clr.addEventListener("click", () => pickMe(""));
+  inp.addEventListener("blur", () => setTimeout(() => { ul.hidden = true; if(inp.value !== me) inp.value = me; }, 150));
+}
+function shortNames(list){
+  const base = n => { const p = n.trim().split(/\s+/); return p.length < 2 ? p[0] : p[0] + " " + p[1][0] + "."; };
+  const cnt = {}; list.forEach(n => { const b = base(n); cnt[b] = (cnt[b]||0) + 1; });
+  return list.map(n => cnt[base(n)] > 1 ? n : base(n));
+}
+function colHtml(c){
+  const L = D[c].live, sn = shortNames(L.map(s => s.nome));
+  return `<div class="col"><h3>Classe ${c}</h3><ol>${L.map((s,i) => `<li class="${s.z}${s.nome===me?" me-row":""}" title="${esc(s.nome)}"><i>${s.pos}</i><span>${esc(sn[i])}</span><u>${s.z==="up"?"▲":s.z==="down"?"▼":""}</u></li>`).join("")}</ol></div>`;
+}
+function tableHtml(c){
+  const rows = D[c].live.map(s => `<tr class="${s.nome===me?"me-row":""}"><td>${s.pos}</td><td>${esc(s.nome)}</td><td class="z ${s.z}">${s.z==="up"?"▲":s.z==="down"?"▼":""}</td></tr>`).join("");
+  return `<div class="tw"><table><thead><tr><th>Pos</th><th>Jogador</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+
+function banner(){
+  const cl = D.A, r = rnd(cl, cl.atual);
+  $("#rb").innerHTML = `Rodada ${r.n} · prazo para jogar: <b>domingo ${r.prazo}</b>`;
+}
+function myGames(c){   /* jogos do jogador em cada rodada do ciclo, já com nomes */
+  const out = [];
+  D[c].rounds.forEach(r => r.games.forEach(g => { if(g.p1 === me || g.p2 === me) out.push([r, g]); }));
+  return out;
+}
+function myView(){
+  const c = meCat(); if(!c) return `<p class="sub">Escolha seu nome acima para ver seu jogo.</p>`;
+  const cls = D[c], r = rnd(cls, cls.atual), sp = cls.live.find(s => s.nome === me);
+  const mg = myGames(c), cur = mg.find(([rr]) => rr.ri === cls.atual);
+  const hist = mg.filter(([rr, g]) => rr.ri < cls.atual && isDone(g) && !g.folga).map(([rr, g]) => {
+    const iw = (g.w === 1) === (g.p1 === me), opp = g.p1 === me ? g.p2 : g.p1;
+    return `<div class="res"><b>Rodada ${rr.n}:</b> ${iw ? "venceu" : "perdeu para"} ${esc(opp)}<small>${scoreTxt(g)}</small></div>`; }).join("");
+  const i = cls.live.findIndex(s => s.nome === me), a = Math.max(0, Math.min(i - 2, cls.live.length - 5));
+  const mini = cls.live.slice(a, a + 5).map(s => `<li class="${s.z}${s.nome === me ? " me-row" : ""}"><i>${s.pos}</i><span>${esc(s.nome)}</span><u>${s.z === "up" ? "▲" : s.z === "down" ? "▼" : ""}</u></li>`).join("");
+  return `<h2 style="margin-top:12px">Meu jogo · Classe ${c}</h2>
+    ${cur ? `<div class="cards">${matchCard(cls, cur[0], cur[1], false)}</div>` : ""}
+    ${mineBox()}
+    <h2>Minha posição</h2><div class="col"><ol>${mini}</ol></div>
+    <p class="legend">Você está em ${sp.pos}º de ${cls.live.length}. <a href="#" id="vc">Ver a classe completa</a></p>
+    ${hist ? `<h2>Meus jogos anteriores</h2><div class="cards" style="display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:2px 12px">${hist}</div>` : ""}`;
+}
+function tabsHtml(){
+  return (me ? `<button role="tab" data-c="M" aria-selected="false">Meu jogo</button>` : "") + `<button role="tab" data-c="G" aria-selected="false">Geral</button>` + CATS.map(c => `<button role="tab" data-c="${c}" aria-selected="false">Classe ${c}</button>`).join("");
+}
+function render(){
+  $("#tabs").innerHTML = tabsHtml();
+  banner();
+  document.querySelectorAll("#tabs button").forEach(b => b.setAttribute("aria-selected", b.dataset.c === tab));
+  const app = $("#app");
+  if(tab === "M"){
+    app.innerHTML = meSelect(true) + myView();
+    const vc = $("#vc"); if(vc) vc.addEventListener("click", e => { e.preventDefault(); tab = meCat(); render(); window.scrollTo(0,0); });
+  } else if(tab === "G"){
+    app.innerHTML = meSelect(true) + `<h2 style="margin-top:12px">Classificação geral · Ciclo ${DATA.ciclo}</h2>
+      <div class="tri">${["A","B","C"].map(colHtml).join("")}</div>
+      <p class="legend">▲ zona de subida (2 primeiros) · ▼ zona de descida (2 últimos). A decisão é no fim de cada ciclo de 4 rodadas. Toque e segure um nome para ver completo.</p>
+      ${me?`<div class="mine-box" style="margin-top:10px">${mineBox().replace(/^<div class="mine-box">|<\/div>$/g,"")}</div>`:""}<details class="dbox"><summary>Classe D (entrada) · ${D.D.live.length} jogadores</summary><div class="in">${tableHtml("D")}</div></details>`;
+  } else {
+    const cls = D[tab], r = rnd(cls, cls.atual), nxt = rnd(cls, cls.atual + 1);
+    const feitos = r.games.filter(g => named(g) && isDone(g)).length, total = r.games.filter(named).length;
+    const old = cls.rounds.filter(x => x.ri < cls.atual).reverse().map(x => `<details><summary>Rodada ${x.n} · encerrada em ${x.prazo}</summary><div class="in">${
+      x.games.filter(named).map(g => { if(g.folga) return `<div class="res">${esc(g.p1)} x ${esc(g.p2)}<small>jogo cancelado</small></div>`;
+        const w = g.w === 1 ? g.p1 : g.p2, l = g.w === 1 ? g.p2 : g.p1;
+        return `<div class="res"><b>${esc(w)}</b> venceu ${esc(l)}<small>${scoreTxt(g)}</small></div>`; }).join("")}</div></details>`).join("");
+    app.innerHTML = meSelect() + `<h2>Classe ${tab} · Rodada ${r.n}</h2>
+      <p class="sub">${feitos} de ${total} jogos concluídos</p>
+      <div class="cards">${r.games.map(g => matchCard(cls, r, g, false)).join("")}</div>
+      ${nxt ? `<h2>Próxima rodada · ${nxt.n}</h2><p class="sub">Os nomes aparecem quando os jogos de que dependem terminam.</p><div class="cards">${nxt.games.map(g => matchCard(cls, nxt, g, true)).join("")}</div>` : `<p class="how">Esta é a última rodada do ciclo. Depois dela as posições finais definem quem sobe e quem desce.</p>`}
+      <h2>Rodadas anteriores</h2>${old || '<p class="sub">Ainda não há rodadas encerradas.</p>'}`;
+  }
+  bindWho();
+}
+$("#tabs").addEventListener("click", e => { const b = e.target.closest("button"); if(b){ tab = b.dataset.c; render(); window.scrollTo(0,0); } });
+
+/* ---------- Atualização automática a partir da planilha publicada (aba "Site") ---------- */
+function parseCSV(t){
+  const rows = []; let row = [], f = "", q = false;
+  for(let i = 0; i < t.length; i++){
+    const ch = t[i];
+    if(q){ if(ch === '"'){ if(t[i+1] === '"'){ f += '"'; i++; } else q = false; } else f += ch; }
+    else if(ch === '"') q = true;
+    else if(ch === ","){ row.push(f); f = ""; }
+    else if(ch === "\n"){ row.push(f); rows.push(row); row = []; f = ""; }
+    else if(ch !== "\r") f += ch;
+  }
+  if(f !== "" || row.length){ row.push(f); rows.push(row); }
+  return rows;
+}
+const numOrNull = v => (v === undefined || v === "" || isNaN(+v)) ? null : +v;
+function applyRows(rows){
+  const ci = rows.find(r => r[0] === "CICLO"); if(!ci) throw new Error("sem ciclo");
+  const cic = +ci[1]; if(!cic) throw new Error("ciclo inválido");
+  const jm = {}, prazo = {};
+  rows.filter(r => r[0] === "JOGO").forEach(r => { jm[r[1] + "|" + r[2] + "|" + r[3]] = r; if(r[14]) prazo[r[2]] = r[14]; });
+  const cls = {};
+  rows.filter(r => r[0] === "CLASSE" && r[3]).forEach(r => { (cls[r[1]] = cls[r[1]] || []).push({pos:+r[2], nome:r[3], z:/subir/.test(r[4]||"") ? "up" : /cair/.test(r[4]||"") ? "down" : ""}); });
+  if(CATS.some(c => !(cls[c] && cls[c].length))) throw new Error("classificação vazia");
+  DATA.ciclo = cic;
+  CATS.forEach(c => {
+    const cl = D[c];
+    cl.rounds.forEach(r => {
+      r.n = 4*(cic-1) + r.ri; if(prazo[r.n]) r.prazo = prazo[r.n];
+      r.games.forEach(g => {
+        const x = jm[c + "|" + r.n + "|" + g.j] || [];
+        g.p1 = x[4] || ""; g.p2 = x[5] || "";
+        const s = [numOrNull(x[6]), numOrNull(x[7]), numOrNull(x[8]), numOrNull(x[9])], t = [numOrNull(x[10]), numOrNull(x[11])];
+        g.sets = s.every(v => v !== null) ? [[s[0], s[1]], [s[2], s[3]]] : [];
+        g.tb = t[0] !== null && t[1] !== null ? t : null;
+        const w = x[13] || ""; g.w = w && w === g.p1 ? 1 : (w && w === g.p2 ? 2 : 0); g.folga = w === "FOLGA"; g.wo = /W\.O\./.test(x[12] || "");
+      });
+    });
+    const named = cl.rounds.filter(r => r.games.some(g => g.p1 && g.p2));
+    const pend = named.filter(r => r.games.some(g => g.p1 && g.p2 && g.w === 0 && !g.folga));
+    cl.atual = (pend[0] || named[named.length-1] || cl.rounds[0]).ri;
+    cl.live = cls[c].sort((a,b) => a.pos - b.pos);
+  });
+}
+function setUpd(t){ const u = $("#upd"); if(u) u.textContent = t; }
+async function refreshData(){
+  if(typeof SHEET_CSV_URL === "undefined" || !SHEET_CSV_URL) return;
+  try{
+    const r = await fetch(SHEET_CSV_URL + (SHEET_CSV_URL.includes("?") ? "&" : "?") + "t=" + Date.now(), {cache:"no-store"});
+    if(!r.ok) throw new Error(r.status);
+    applyRows(parseCSV(await r.text()));
+    if(me && !known(me)) me = "";
+    const d = new Date(); setUpd("Atualizado hoje às " + String(d.getHours()).padStart(2,"0") + ":" + String(d.getMinutes()).padStart(2,"0"));
+    const keep = document.activeElement && document.activeElement.id === "who";
+    if(!keep) render();
+  } catch(e){ setUpd("Sem conexão com a planilha · mostrando dados salvos"); }
+}
+render();
+refreshData();
+setInterval(refreshData, 180000);
+document.addEventListener('visibilitychange', () => { if(!document.hidden) refreshData(); });
+if('serviceWorker' in navigator && location.protocol.indexOf('http')===0) navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body>
+</html>
